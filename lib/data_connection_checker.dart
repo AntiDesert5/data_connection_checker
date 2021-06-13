@@ -26,12 +26,12 @@ class DataConnectionChecker {
   ///
   /// Timeout is the number of seconds before a request is dropped
   /// and an address is considered unreachable
-  static const Duration DEFAULT_TIMEOUT = const Duration(seconds: 10);
+  static const Duration DEFAULT_TIMEOUT = Duration(seconds: 10);
 
   /// Default interval is 10 seconds
   ///
   /// Interval is the time between automatic checks
-  static const Duration DEFAULT_INTERVAL = const Duration(seconds: 10);
+  static const Duration DEFAULT_INTERVAL = Duration(seconds: 10);
 
   /// Predefined reliable addresses. This is opinionated
   /// but should be enough. See https://www.dnsperf.com/#!dns-resolvers
@@ -120,7 +120,7 @@ class DataConnectionChecker {
         options.port,
         timeout: options.timeout,
       );
-      sock?.destroy();
+      sock.destroy();
       return AddressCheckResult(options, true);
     } catch (e) {
       sock?.destroy();
@@ -174,7 +174,7 @@ class DataConnectionChecker {
   //
   // If there are listeners, a timer is started which runs this function again
   // after the specified time in 'checkInterval'
-  _maybeEmitStatusUpdate([Timer? timer]) async {
+  Future<void> _maybeEmitStatusUpdate([Timer? timer]) async {
     // just in case
     _timerHandle?.cancel();
     timer?.cancel();
@@ -201,7 +201,7 @@ class DataConnectionChecker {
   Timer? _timerHandle;
 
   // controller for the exposed 'onStatusChange' Stream
-  StreamController<DataConnectionStatus> _statusController =
+  final StreamController<DataConnectionStatus> _statusController =
       StreamController.broadcast();
 
   /// Subscribe to this stream to receive events whenever the
@@ -284,7 +284,7 @@ class AddressCheckOptions {
   });
 
   @override
-  String toString() => "AddressCheckOptions($address, $port, $timeout)";
+  String toString() => 'AddressCheckOptions($address, $port, $timeout)';
 }
 
 /// Helper class that contains the address options and indicates whether
@@ -299,5 +299,5 @@ class AddressCheckResult {
   );
 
   @override
-  String toString() => "AddressCheckResult($options, $isSuccess)";
+  String toString() => 'AddressCheckResult($options, $isSuccess)';
 }
