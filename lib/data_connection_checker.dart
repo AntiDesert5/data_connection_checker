@@ -140,7 +140,7 @@ class DataConnectionChecker {
   /// we assume an internet connection is available and return `true`.
   /// `false` otherwise.
   Future<bool> get hasConnection async {
-    List<Future<AddressCheckResult>> requests = [];
+    var requests = <Future<AddressCheckResult>>[];
 
     for (var addressOptions in addresses) {
       requests.add(isHostReachable(addressOptions));
